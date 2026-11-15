@@ -34,3 +34,10 @@ It prints:
    environment, not the repo.
 
 Docs: https://code.claude.com/docs/en/claude-code-on-the-web
+
+## Live page (GitHub Pages)
+
+`docs/index.html` is a snapshot of `whereami.sh` output from one cloud
+session, laid out as a web page. To publish it, open **Settings → Pages**,
+choose **Deploy from a branch**, then pick the branch and the `/docs` folder.
+It will appear at `https://<owner>.github.io/claude-cloud-env/`.

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="One Claude Code cloud container's machine, tools, network policy and disk, captured by whereami.sh.">
+<title>Cloud Container Snapshot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin: 0; }
+
+/* Layout: a single spec-sheet column; facts as label/value rows grouped by panel, two panels per row on wide screens */
+:root {
+  --bg: #f3f5f8;
+  --panel: #ffffff;
+  --fg: #18202b;
+  --muted: #5b6676;
+  --line: #dbe1e9;
+  --accent: #2f5fd0;
+  --ok: #1d7a4a;
+  --ok-bg: #e3f3ea;
+  --bad: #a43a2b;
+  --bad-bg: #f8e6e2;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --panel: #18202a; --fg: #e4e9f0; --muted: #94a0b1; --line: #2a3542;
+    --accent: #7ea2ff; --ok: #6fd39c; --ok-bg: #173527; --bad: #f19080; --bad-bg: #3a1f1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --panel: #18202a; --fg: #e4e9f0; --muted: #94a0b1; --line: #2a3542;
+  --accent: #7ea2ff; --ok: #6fd39c; --ok-bg: #173527; --bad: #f19080; --bad-bg: #3a1f1b;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 56px;
+}
+.wrap { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; flex-direction: column; gap: 10px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 64ch; margin: 0; }
+.meta { font-family: var(--mono); font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 16px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.panel.wide { grid-column: 1 / -1; }
+h2 { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0; }
+dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; }
+dt { color: var(--muted); font-size: 14px; }
+dd { margin: 0; font-family: var(--mono); font-size: 14px; min-width: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.note { font-size: 14px; color: var(--muted); margin: 0; }
+.pill { display: inline-block; font-family: var(--mono); font-size: 12px; padding: 2px 8px; border-radius: 999px; }
+.pill.ok { color: var(--ok); background: var(--ok-bg); }
+.pill.bad { color: var(--bad); background: var(--bad-bg); }
+.hosts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.hosts li { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 14px; }
+.bar { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.bar span { display: block; height: 100%; width: 3.4%; background: var(--accent); }
+ol.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+code { font-family: var(--mono); font-size: 13.5px; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+footer { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Claude Code · cloud environment</div>
+    <h1>What a cloud session runs on</h1>
+    <p class="lede">A snapshot of one Claude Code cloud container, captured by running <code>./whereami.sh</code> from the <code>claude-cloud-env</code> repo. Every session gets a fresh container like this. It's built from an environment's network policy, variables and setup script, and it's discarded when the session goes idle.</p>
+    <div class="meta"><span>Captured 15 Nov 2026</span><span>Branch claude/cloud-environments-demo-2ueskw</span></div>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Machine</h2>
+      <dl>
+        <dt>OS</dt><dd>Ubuntu 24.04.5 LTS</dd>
+        <dt>Kernel</dt><dd>6.18.44-fc-v470</dd>
+        <dt>CPUs</dt><dd>4</dd>
+        <dt>Memory</dt><dd>15 GiB</dd>
+        <dt>Uptime</dt><dd>3 minutes</dd>
+      </dl>
+      <p class="note">It had been up for 3 minutes because the container was created when the session started. When the container is reclaimed, anything not pushed to GitHub is lost.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Network policy</h2>
+      <ul class="hosts">
+        <li><span>registry.npmjs.org</span><span class="pill ok">reachable · 200</span></li>
+        <li><span>pypi.org</span><span class="pill ok">reachable · 200</span></li>
+        <li><span>example.com</span><span class="pill bad">no response</span></li>
+      </ul>
+      <p class="note">All outbound HTTPS goes through the environment's proxy. Package registries are allowed by default. Other hosts have to be added to the environment's allowlist.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Pre-installed tools</h2>
+      <dl>
+        <dt>git</dt><dd>2.43.0</dd>
+        <dt>node</dt><dd>22.23.4</dd>
+        <dt>python3</dt><dd>3.13.18</dd>
+        <dt>go</dt><dd>1.24.7</dd>
+        <dt>rustc</dt><dd>1.97.0</dd>
+        <dt>java</dt><dd>OpenJDK 21.0.12.1</dd>
+        <dt>docker</dt><dd>29.9.2</dd>
+        <dt>gh</dt><dd>2.89.0</dd>
+        <dt>gcloud</dt><dd>Cloud SDK 570.0.0</dd>
+      </dl>
+    </section>
+
+    <section class="panel">
+      <h2>Disk</h2>
+      <div class="bar" role="img" aria-label="8.5 GB of 252 GB used"><span></span></div>
+      <dl>
+        <dt>Used</dt><dd>8.5 GB</dd>
+        <dt>Volume</dt><dd>252 GB</dd>
+      </dl>
+      <p class="note">Each session's writable disk is a fixed allowance, so the volume size <code>df</code> reports is larger than what one session can actually use.</p>
+    </section>
+
+    <section class="panel wide">
+      <h2>Try it yourself</h2>
+      <ol class="steps">
+        <li>Open a cloud session on the repo and run <code>./whereami.sh</code>.</li>
+        <li>Edit the environment in Claude Code settings. For example, allow <code>example.com</code> or add a setup script like <code>apt-get install -y cowsay</code>.</li>
+        <li>Start a new session and run the script again. The repo hasn't changed, so any difference comes from the environment.</li>
+      </ol>
+      <p class="note">Docs: <a href="https://code.claude.com/docs/en/claude-code-on-the-web">code.claude.com/docs/en/claude-code-on-the-web</a></p>
+    </section>
+  </div>
+
+  <footer>Static snapshot. The numbers are from one run and won't update.</footer>
+</div>
+</body>
+</html>
